@@ -66,7 +66,7 @@ class WeakifyTest: XCTestCase {
             return { self.executed = true }
         }
 
-        let fn: () -> () = weakify(object, f)
+        let fn: () -> Void? = weakify(object, f)
         object = nil
         fn()
 
@@ -78,7 +78,7 @@ class WeakifyTest: XCTestCase {
             self.executed = true
         }
 
-        let fn: () -> () = weakify(object, f)
+        let fn: () -> Void? = weakify(object, f)
         object = nil
         fn()
 
@@ -90,7 +90,7 @@ class WeakifyTest: XCTestCase {
             return { self.executed = true }
         }
 
-        let fn: () throws -> () = weakify(object, f)
+        let fn: () throws -> Void? = weakify(object, f)
         object = nil
         try fn()
 
@@ -102,7 +102,7 @@ class WeakifyTest: XCTestCase {
             self.executed = true
         }
 
-        let fn: () throws -> () = weakify(object, f)
+        let fn: () throws -> Void? = weakify(object, f)
         object = nil
         try fn()
 
@@ -132,7 +132,7 @@ class WeakifyTest: XCTestCase {
             return { self.executed = true }
         }
 
-        let fn: (Any) -> Void = weakify(object, f)
+        let fn: (Any) -> Void? = weakify(object, f)
         fn(123)
 
         XCTAssertTrue(executed)
@@ -143,7 +143,7 @@ class WeakifyTest: XCTestCase {
             self.executed = true
         }
 
-        let fn: (Any) -> Void = weakify(object, f)
+        let fn: (Any) -> Void? = weakify(object, f)
         fn(123)
 
         XCTAssertTrue(executed)
@@ -154,7 +154,7 @@ class WeakifyTest: XCTestCase {
             return { self.executed = true }
         }
 
-        let fn: (Any) throws -> Void = weakify(object, f)
+        let fn: (Any) throws -> Void? = weakify(object, f)
         try fn(123)
 
         XCTAssertTrue(executed)
@@ -165,7 +165,7 @@ class WeakifyTest: XCTestCase {
             self.executed = true
         }
 
-        let fn: (Any) throws -> Void = weakify(object, f)
+        let fn: (Any) throws -> Void? = weakify(object, f)
         try fn(123)
 
         XCTAssertTrue(executed)
@@ -176,7 +176,7 @@ class WeakifyTest: XCTestCase {
             return { self.executed = true }
         }
 
-        let fn: (Any) -> Void = weakify(object, f)
+        let fn: (Any) -> Void? = weakify(object, f)
         object = nil
         fn(123)
 
@@ -188,7 +188,7 @@ class WeakifyTest: XCTestCase {
             self.executed = true
         }
 
-        let fn: (Any) -> Void = weakify(object, f)
+        let fn: (Any) -> Void? = weakify(object, f)
         object = nil
         fn(123)
 
@@ -200,7 +200,7 @@ class WeakifyTest: XCTestCase {
             return { self.executed = true }
         }
 
-        let fn: (Any) throws -> Void = weakify(object, f)
+        let fn: (Any) throws -> Void? = weakify(object, f)
         object = nil
         try fn(123)
 
@@ -212,7 +212,7 @@ class WeakifyTest: XCTestCase {
             self.executed = true
         }
 
-        let fn: (Any) throws -> Void = weakify(object, f)
+        let fn: (Any) throws -> Void? = weakify(object, f)
         object = nil
         try fn(123)
 
@@ -224,7 +224,7 @@ class WeakifyTest: XCTestCase {
             return { throw TestError() }
         }
 
-        let fn: (Any) throws -> Void = weakify(object, f)
+        let fn: (Any) throws -> Void? = weakify(object, f)
 
         XCTAssertThrowsError(try fn(123))
     }
@@ -234,7 +234,7 @@ class WeakifyTest: XCTestCase {
             throw TestError()
         }
 
-        let fn: (Any) throws -> Void = weakify(object, f)
+        let fn: (Any) throws -> Void? = weakify(object, f)
 
         XCTAssertThrowsError(try fn(123))
     }
@@ -286,7 +286,7 @@ class WeakifyTest: XCTestCase {
             return { int in self.executed = true }
         }
 
-        let fn: (Int) -> Void = weakify(object, f)
+        let fn: (Int) -> Void? = weakify(object, f)
         object = nil
         fn(123)
 
@@ -310,7 +310,7 @@ class WeakifyTest: XCTestCase {
             return { int in self.executed = true }
         }
 
-        let fn: (Int) throws -> Void = weakify(object, f)
+        let fn: (Int) throws -> Void? = weakify(object, f)
         object = nil
         try fn(123)
 
@@ -542,7 +542,7 @@ class WeakifyTest: XCTestCase {
             return { int in self.value = int; self.executed = true }
         }
 
-        let fn: (Any) -> Void = weakify(object, f)
+        let fn: (Any) -> Void? = weakify(object, f)
         fn(123)
 
         XCTAssertTrue(executed)
@@ -554,7 +554,7 @@ class WeakifyTest: XCTestCase {
             self.value = int; self.executed = true
         }
 
-        let fn: (Any) -> Void = weakify(object, f)
+        let fn: (Any) -> Void? = weakify(object, f)
         fn(123)
 
         XCTAssertTrue(executed)
@@ -566,7 +566,7 @@ class WeakifyTest: XCTestCase {
             return { int in self.value = int; self.executed = true }
         }
 
-        let fn: (Any) throws -> Void = weakify(object, f)
+        let fn: (Any) throws -> Void? = weakify(object, f)
         try! fn(123)
 
         XCTAssertTrue(executed)
@@ -578,7 +578,7 @@ class WeakifyTest: XCTestCase {
             self.value = int; self.executed = true
         }
 
-        let fn: (Any) throws -> Void = weakify(object, f)
+        let fn: (Any) throws -> Void? = weakify(object, f)
         try! fn(123)
 
         XCTAssertTrue(executed)
@@ -634,7 +634,7 @@ class WeakifyTest: XCTestCase {
             return { int in self.value = int; self.executed = true }
         }
 
-        let fn: (Any) -> Void = weakify(object, f)
+        let fn: (Any) -> Void? = weakify(object, f)
         object = nil
         fn("123")
 
@@ -647,7 +647,7 @@ class WeakifyTest: XCTestCase {
             self.value = int; self.executed = true
         }
 
-        let fn: (Any) -> Void = weakify(object, f)
+        let fn: (Any) -> Void? = weakify(object, f)
         object = nil
         fn("123")
 
@@ -660,7 +660,7 @@ class WeakifyTest: XCTestCase {
             return { int in self.value = int; self.executed = true }
         }
 
-        let fn: (Any) throws -> Void = weakify(object, f)
+        let fn: (Any) throws -> Void? = weakify(object, f)
         object = nil
         try! fn("123")
 
@@ -673,7 +673,7 @@ class WeakifyTest: XCTestCase {
             self.value = int; self.executed = true
         }
 
-        let fn: (Any) throws -> Void = weakify(object, f)
+        let fn: (Any) throws -> Void? = weakify(object, f)
         object = nil
         try! fn("123")
 

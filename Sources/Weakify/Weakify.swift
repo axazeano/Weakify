@@ -2,13 +2,13 @@
 
 // MARK: - (T) -> () -> ()
     
-public func weakify <T: AnyObject>(_ owner: T, _ f: @escaping (T) -> () -> Void) -> () -> Void {
+public func weakify <T: AnyObject>(_ owner: T, _ f: @escaping (T) -> () -> Void) -> () -> Void? {
     return { [weak owner] in
         return owner.map { f($0)() }
     }
 }
 
-public func weakify <T: AnyObject>(_ owner: T, _ f: @escaping (T) -> () throws -> Void) -> () throws -> Void {
+public func weakify <T: AnyObject>(_ owner: T, _ f: @escaping (T) -> () throws -> Void) -> () throws -> Void? {
     return { [weak owner] in
         return try owner.map { try f($0)() }
     }
@@ -16,13 +16,13 @@ public func weakify <T: AnyObject>(_ owner: T, _ f: @escaping (T) -> () throws -
 
 // MARK: - (T) -> ()
 
-public func weakify <T: AnyObject>(_ owner: T, _ f: @escaping (T) -> Void) -> () -> Void {
+public func weakify <T: AnyObject>(_ owner: T, _ f: @escaping (T) -> Void) -> () -> Void? {
     return { [weak owner] in
         return owner.map { f($0) }
     }
 }
 
-public func weakify <T: AnyObject>(_ owner: T, _ f: @escaping (T) throws -> Void) -> () throws -> Void {
+public func weakify <T: AnyObject>(_ owner: T, _ f: @escaping (T) throws -> Void) -> () throws -> Void? {
     return { [weak owner] in
         return try owner.map { try f($0) }
     }
@@ -37,7 +37,7 @@ public func weakify <T: AnyObject>(_ owner: T, _ f: @escaping (T) throws -> Void
 ///   - f: The function/method to weakly apply owner to as the first argument
 ///
 /// - returns: A function where owner is weakly applied to the given function f. If owner is nil, nothing happens. If owner is not nil, calls `f(owner)()`
-public func weakify <T: AnyObject, U>(_ owner: T, _ f: @escaping (T) -> () -> Void) -> (U) -> Void {
+public func weakify <T: AnyObject, U>(_ owner: T, _ f: @escaping (T) -> () -> Void) -> (U) -> Void? {
     return { [weak owner] _ in
         return owner.map { f($0)() }
     }
@@ -49,7 +49,7 @@ public func weakify <T: AnyObject, U>(_ owner: T, _ f: @escaping (T) -> () -> Vo
 /// - parameter f:     The function/method to weakly apply owner to as the first argument
 ///
 /// - returns: A function where owner is weakly applied to the given function f. If owner is nil, nothing happens. If owner is not nil, calls `try f(owner)()`
-public func weakify <T: AnyObject, U>(_ owner: T, _ f: @escaping (T) -> () throws -> Void) -> (U) throws -> Void {
+public func weakify <T: AnyObject, U>(_ owner: T, _ f: @escaping (T) -> () throws -> Void) -> (U) throws -> Void? {
     return { [weak owner] _ in
         return try owner.map { try f($0)() }
     }
@@ -57,13 +57,13 @@ public func weakify <T: AnyObject, U>(_ owner: T, _ f: @escaping (T) -> () throw
 
 // MARK: - (_) -> Void
 
-public func weakify <T: AnyObject, U>(_ owner: T, _ f: @escaping (T) -> Void) -> (U) -> Void {
+public func weakify <T: AnyObject, U>(_ owner: T, _ f: @escaping (T) -> Void) -> (U) -> Void? {
     return { [weak owner] _ in
         return owner.map { f($0) }
     }
 }
 
-public func weakify <T: AnyObject, U>(_ owner: T, _ f: @escaping (T) throws -> Void) -> (U) throws -> Void {
+public func weakify <T: AnyObject, U>(_ owner: T, _ f: @escaping (T) throws -> Void) -> (U) throws -> Void? {
     return { [weak owner] _ in
         return try owner.map { try f($0) }
     }
@@ -77,7 +77,7 @@ public func weakify <T: AnyObject, U>(_ owner: T, _ f: @escaping (T) throws -> V
 /// - parameter f:     The function/method to weakly apply owner to as the first argument
 ///
 /// - returns: A function where owner is weakly applied to the given function f. If owner is nil, nothing happens. If owner is not nil, calls `f(owner)($0)`
-public func weakify <T: AnyObject, U>(_ owner: T, _ f: @escaping (T) -> (U) -> Void) -> (U) -> Void {
+public func weakify <T: AnyObject, U>(_ owner: T, _ f: @escaping (T) -> (U) -> Void) -> (U) -> Void? {
     return { [weak owner] obj in
         return owner.map { f($0)(obj) }
     }
@@ -89,7 +89,7 @@ public func weakify <T: AnyObject, U>(_ owner: T, _ f: @escaping (T) -> (U) -> V
 /// - parameter f:     The function/method to weakly apply owner to as the first argument
 ///
 /// - returns: A function where owner is weakly applied to the given function f. If owner is nil, nothing happens. If owner is not nil, calls `try f(owner)($0)`
-public func weakify <T: AnyObject, U>(_ owner: T, _ f: @escaping (T) -> (U) throws -> Void) -> (U) throws -> Void {
+public func weakify <T: AnyObject, U>(_ owner: T, _ f: @escaping (T) -> (U) throws -> Void) -> (U) throws -> Void? {
     return { [weak owner] obj in
         return try owner.map { try f($0)(obj) }
     }
@@ -97,11 +97,11 @@ public func weakify <T: AnyObject, U>(_ owner: T, _ f: @escaping (T) -> (U) thro
 
 // MARK: - (T, U) -> ()
 
-public func weakify <T: AnyObject, U>(_ owner: T, _ f: @escaping (T, U) -> Void) -> (U) -> Void {
+public func weakify <T: AnyObject, U>(_ owner: T, _ f: @escaping (T, U) -> Void) -> (U) -> Void? {
     return weakify(owner, curry(f))
 }
 
-public func weakify <T: AnyObject, U>(_ owner: T, _ f: @escaping (T, U) throws -> Void) -> (U) throws -> Void {
+public func weakify <T: AnyObject, U>(_ owner: T, _ f: @escaping (T, U) throws -> Void) -> (U) throws -> Void? {
     return weakify(owner, curry(f))
 }
 
@@ -189,7 +189,7 @@ public func weakify <T: AnyObject, U, V>(_ owner: T, _ f: @escaping (T, U) throw
 /// - parameter f:     The function/method to weakly apply owner to as the first argument
 ///
 /// - returns: A function where owner is weakly applied to the given function f. If owner is nil, nothing happens. If owner is not nil, returns `f(owner)($0 as? U)`
-public func weakify <T: AnyObject, U, V>(_ owner: T, _ f: @escaping (T) -> (U?) -> Void) -> (V) -> Void {
+public func weakify <T: AnyObject, U, V>(_ owner: T, _ f: @escaping (T) -> (U?) -> Void) -> (V) -> Void? {
     return { [weak owner] obj in
         return owner.map { f($0)(obj as? U) }
     }
@@ -201,7 +201,7 @@ public func weakify <T: AnyObject, U, V>(_ owner: T, _ f: @escaping (T) -> (U?) 
 /// - parameter f:     The function/method to weakly apply owner to as the first argument
 ///
 /// - returns: A function where owner is weakly applied to the given function f. If owner is nil, nothing happens. If owner is not nil, returns `try f(owner)($0 as? U)`
-public func weakify <T: AnyObject, U, V>(_ owner: T, _ f: @escaping (T) -> (U?) throws -> Void) -> (V) throws -> Void {
+public func weakify <T: AnyObject, U, V>(_ owner: T, _ f: @escaping (T) -> (U?) throws -> Void) -> (V) throws -> Void? {
     return { [weak owner] obj in
         return try owner.map { try f($0)(obj as? U) }
     }
@@ -209,11 +209,11 @@ public func weakify <T: AnyObject, U, V>(_ owner: T, _ f: @escaping (T) -> (U?) 
 
 // MARK: - (T, U?) -> ()
 
-public func weakify <T: AnyObject, U, V>(_ owner: T, _ f: @escaping (T, U?) -> Void) -> (V) -> Void {
+public func weakify <T: AnyObject, U, V>(_ owner: T, _ f: @escaping (T, U?) -> Void) -> (V) -> Void? {
     return weakify(owner, curry(f))
 }
 
-public func weakify <T: AnyObject, U, V>(_ owner: T, _ f: @escaping (T, U?) throws -> Void) -> (V) throws -> Void {
+public func weakify <T: AnyObject, U, V>(_ owner: T, _ f: @escaping (T, U?) throws -> Void) -> (V) throws -> Void? {
     return weakify(owner, curry(f))
 }
 
